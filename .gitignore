@@ -1,6 +1,5 @@
-# Plain Kubernetes secrets (use sealed-secret.yaml instead)
+# Plain Kubernetes secrets (managed by bootstrap script or 1Password operator)
 *-secret.yaml
-!sealed-secret.yaml
 
 # Editor files
 *.swp

@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - statefulset.yaml
   - service.yaml
-  - sealed-secret.yaml
+  - init-db-configmap.yaml

@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../base
+  - ../../base/storage
+  - ../../base/onepassword
 patches:
   - path: nfs-patch.yaml

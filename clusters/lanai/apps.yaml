@@ -1,16 +1,33 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: apps
+  name: apps-postgres
   namespace: flux-system
 spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps
+  path: ./apps/postgres
   prune: true
   wait: true
   timeout: 5m
   dependsOn:
     - name: infrastructure
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps-litellm
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/litellm
+  prune: true
+  wait: true
+  timeout: 5m
+  dependsOn:
+    - name: apps-postgres

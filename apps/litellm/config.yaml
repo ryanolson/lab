@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-config
+data:
+  config.yaml: |
+    model_list:
+    - model_name: gemini-flash
+      litellm_params:
+        model: gemini/gemini-2.0-flash
+        api_key: os.environ/GOOGLE_API_KEY
+    - model_name: gemini-pro
+      litellm_params:
+        model: gemini/gemini-1.5-pro
+        api_key: os.environ/GOOGLE_API_KEY

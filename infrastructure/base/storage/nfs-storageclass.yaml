@@ -1,0 +1,27 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: synology-nfs
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: REPLACE_NFS_SERVER
+  share: REPLACE_NFS_SHARE
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - hard
+  - nfsvers=4.0
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: synology-nfs-ephemeral
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: REPLACE_NFS_SERVER
+  share: REPLACE_NFS_SHARE
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - hard
+  - nfsvers=4.0

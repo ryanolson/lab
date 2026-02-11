@@ -1,0 +1,14 @@
+# Plain Kubernetes secrets (use sealed-secret.yaml instead)
+*-secret.yaml
+!*-sealed-secret.yaml
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

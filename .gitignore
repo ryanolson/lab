@@ -1,6 +1,6 @@
 # Plain Kubernetes secrets (use sealed-secret.yaml instead)
 *-secret.yaml
-!*-sealed-secret.yaml
+!sealed-secret.yaml
 
 # Editor files
 *.swp

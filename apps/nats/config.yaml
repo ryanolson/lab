@@ -5,9 +5,4 @@ metadata:
 data:
   nats-server.conf: |
     port: 4222
-    authorization {
-      users: [
-        { user: default, password: $NATS_DEFAULT_PASSWORD }
-        { user: dynamo, password: $NATS_DYNAMO_PASSWORD }
-      ]
-    }
+    include /etc/nats-auth/auth.conf

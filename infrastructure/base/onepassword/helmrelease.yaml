@@ -17,8 +17,10 @@ spec:
       create: false
     operator:
       create: true
+      autoRestart: true
+      authMethod: service-account
       serviceAccount:
         create: true
-      token:
+      serviceAccountToken:
         name: op-service-account-token
         key: token

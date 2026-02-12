@@ -33,6 +33,8 @@ spec:
                 secretKeyRef:
                   name: litellm-master-key
                   key: LITELLM_MASTER_KEY
+            - name: ENABLE_OLLAMA_API
+              value: "false"
             - name: WEBUI_SECRET_KEY
               valueFrom:
                 secretKeyRef:

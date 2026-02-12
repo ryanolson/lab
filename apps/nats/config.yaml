@@ -8,6 +8,6 @@ data:
     authorization {
       users: [
         { user: default, password: $NATS_DEFAULT_PASSWORD }
-        { user: dynamo, password: $NATS_DYNAMO_PASSWORD, token: $NATS_DYNAMO_TOKEN }
+        { user: dynamo, password: $NATS_DYNAMO_PASSWORD }
       ]
     }

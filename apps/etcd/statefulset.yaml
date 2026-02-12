@@ -24,31 +24,24 @@ spec:
             - sh
             - -c
             - |
-              mkdir -p /bitnami/etcd/data
-              chmod 700 /bitnami/etcd/data
+              mkdir -p /var/lib/etcd
+              chmod 700 /var/lib/etcd
           volumeMounts:
             - name: etcd-data
-              mountPath: /bitnami/etcd
+              mountPath: /var/lib
       containers:
         - name: etcd
-          image: bitnami/etcd:3.5
-          env:
-            - name: ALLOW_NONE_AUTHENTICATION
-              value: "no"
-            - name: ETCD_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: etcd-credentials
-                  key: ETCD_ROOT_PASSWORD
-            - name: ETCD_ADVERTISE_CLIENT_URLS
-              value: http://etcd-service:2379
-            - name: ETCD_LISTEN_CLIENT_URLS
-              value: http://0.0.0.0:2379
+          image: registry.k8s.io/etcd:3.5.16-0
+          command:
+            - etcd
+            - --data-dir=/var/lib/etcd
+            - --listen-client-urls=http://0.0.0.0:2379
+            - --advertise-client-urls=http://etcd-service:2379
           ports:
             - containerPort: 2379
           volumeMounts:
             - name: etcd-data
-              mountPath: /bitnami/etcd
+              mountPath: /var/lib
   volumeClaimTemplates:
     - metadata:
         name: etcd-data

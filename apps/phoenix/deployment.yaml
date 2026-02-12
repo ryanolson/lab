@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phoenix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phoenix
+  template:
+    metadata:
+      labels:
+        app: phoenix
+    spec:
+      containers:
+        - name: phoenix
+          image: arizephoenix/phoenix:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              export PHOENIX_SQL_DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-service:5432/phoenix"
+              exec python -m phoenix.server.main serve
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+            - name: PHOENIX_PORT
+              value: "6006"
+            - name: PHOENIX_GRPC_PORT
+              value: "4317"
+            - name: PHOENIX_WORKING_DIR
+              value: /mnt/data
+          ports:
+            - containerPort: 6006
+            - containerPort: 4317
+          volumeMounts:
+            - name: data
+              mountPath: /mnt/data
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 6006
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 6006
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      volumes:
+        - name: data
+          emptyDir: {}

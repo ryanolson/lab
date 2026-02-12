@@ -69,6 +69,23 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: apps-phoenix
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/phoenix
+  prune: true
+  wait: true
+  timeout: 5m
+  dependsOn:
+    - name: apps-postgres
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: apps-litellm
   namespace: flux-system
 spec:
@@ -83,6 +100,7 @@ spec:
   dependsOn:
     - name: apps-postgres
     - name: apps-redis
+    - name: apps-phoenix
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

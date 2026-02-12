@@ -15,11 +15,7 @@ spec:
       containers:
         - name: phoenix
           image: arizephoenix/phoenix:latest
-          command: ["sh", "-c"]
-          args:
-            - |
-              export PHOENIX_SQL_DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres-service:5432/phoenix"
-              exec python -m phoenix.server.main serve
+          command: ["python", "-m", "phoenix.server.main", "serve"]
           env:
             - name: POSTGRES_USER
               value: "postgres"
@@ -28,6 +24,8 @@ spec:
                 secretKeyRef:
                   name: postgres-credentials
                   key: POSTGRES_PASSWORD
+            - name: PHOENIX_SQL_DATABASE_URL
+              value: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres-service:5432/phoenix"
             - name: PHOENIX_PORT
               value: "6006"
             - name: PHOENIX_GRPC_PORT

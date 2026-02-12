@@ -15,24 +15,21 @@ spec:
       containers:
         - name: openwebui
           image: ghcr.io/open-webui/open-webui:main
-          command: ["sh", "-c"]
-          args:
-            - |
-              export DATABASE_URL="postgresql://postgres:${POSTGRES_PASSWORD}@postgres-service:5432/open_webui"
-              exec open-webui serve
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgres-credentials
                   key: POSTGRES_PASSWORD
-            - name: OPENAI_API_BASE
+            - name: DATABASE_URL
+              value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres-service:5432/open_webui"
+            - name: OPENAI_API_BASE_URL
               value: "http://litellm-service:4000/v1"
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: litellm-master-key
-                  key: LITELLM_MASTER_KEY
+                  key: credential
             - name: ENABLE_OLLAMA_API
               value: "false"
             - name: WEBUI_SECRET_KEY

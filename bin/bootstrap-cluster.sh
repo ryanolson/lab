@@ -43,6 +43,15 @@ ensure_secret "$NAMESPACE_OP" op-service-account-token \
 ensure_secret default postgres-credentials \
   --from-literal=POSTGRES_PASSWORD="$(openssl rand -base64 24)"
 
+# Sync the secret password into postgres (handles password drift after PVC re-init).
+# Safe to run repeatedly — ALTER ROLE is idempotent.
+if $KUBECTL get pod postgres-0 -n default &>/dev/null; then
+  _pg_pw="$($KUBECTL get secret postgres-credentials -n default -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)"
+  echo "Syncing postgres password from secret into running instance..."
+  $KUBECTL exec postgres-0 -n default -- psql -U postgres -c "ALTER USER postgres PASSWORD '$_pg_pw'" || true
+  unset _pg_pw
+fi
+
 ensure_secret default redis-credentials \
   --from-literal=REDIS_PASSWORD="$(openssl rand -base64 24)"
 

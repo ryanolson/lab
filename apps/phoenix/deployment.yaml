@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: phoenix
-          image: arizephoenix/phoenix:latest
+          image: arizephoenix/phoenix:version-12.35.0
           command: ["python", "-m", "phoenix.server.main", "serve"]
           env:
             - name: POSTGRES_USER

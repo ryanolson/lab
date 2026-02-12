@@ -27,8 +27,19 @@ ensure_secret "$NAMESPACE_OP" op-service-account-token \
 ensure_secret default postgres-credentials \
   --from-literal=POSTGRES_PASSWORD="$(openssl rand -base64 24)"
 
-# Future services — just add lines here:
-# ensure_secret default redis-credentials \
-#   --from-literal=REDIS_PASSWORD="$(openssl rand -base64 24)"
-# ensure_secret default nats-credentials \
-#   --from-literal=NATS_PASSWORD="$(openssl rand -base64 24)"
+ensure_secret default redis-credentials \
+  --from-literal=REDIS_PASSWORD="$(openssl rand -base64 24)"
+
+ensure_secret default nats-credentials \
+  --from-literal=NATS_DEFAULT_PASSWORD="$(openssl rand -base64 24)" \
+  --from-literal=NATS_DYNAMO_PASSWORD="$(openssl rand -base64 24)" \
+  --from-literal=NATS_DYNAMO_TOKEN="$(openssl rand -base64 32)"
+
+ensure_secret default etcd-credentials \
+  --from-literal=ETCD_ROOT_PASSWORD="$(openssl rand -base64 24)"
+
+ensure_secret default litellm-master-key \
+  --from-literal=LITELLM_MASTER_KEY="sk-$(openssl rand -hex 24)"
+
+ensure_secret default openwebui-secret-key \
+  --from-literal=OPENWEBUI_SECRET_KEY="$(openssl rand -base64 32)"

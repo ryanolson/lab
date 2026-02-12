@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nats-config
+data:
+  nats-server.conf: |
+    port: 4222
+    authorization {
+      users: [
+        { user: default, password: $NATS_DEFAULT_PASSWORD }
+        { user: dynamo, password: $NATS_DYNAMO_PASSWORD, token: $NATS_DYNAMO_TOKEN }
+      ]
+    }

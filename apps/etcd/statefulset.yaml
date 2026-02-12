@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: etcd
+spec:
+  serviceName: etcd-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etcd
+  template:
+    metadata:
+      labels:
+        app: etcd
+    spec:
+      # Synology NFS uses all_squash → maps every UID to 1024 on disk.
+      securityContext:
+        runAsUser: 1024
+        runAsGroup: 100
+      initContainers:
+        - name: init-etcd-data
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /bitnami/etcd/data
+              chmod 700 /bitnami/etcd/data
+          volumeMounts:
+            - name: etcd-data
+              mountPath: /bitnami/etcd
+      containers:
+        - name: etcd
+          image: bitnami/etcd:3.5
+          env:
+            - name: ALLOW_NONE_AUTHENTICATION
+              value: "no"
+            - name: ETCD_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: etcd-credentials
+                  key: ETCD_ROOT_PASSWORD
+            - name: ETCD_ADVERTISE_CLIENT_URLS
+              value: http://etcd-service:2379
+            - name: ETCD_LISTEN_CLIENT_URLS
+              value: http://0.0.0.0:2379
+          ports:
+            - containerPort: 2379
+          volumeMounts:
+            - name: etcd-data
+              mountPath: /bitnami/etcd
+  volumeClaimTemplates:
+    - metadata:
+        name: etcd-data
+      spec:
+        accessModes:
+          - ReadWriteMany
+        storageClassName: synology-nfs-ephemeral
+        resources:
+          requests:
+            storage: 2Gi

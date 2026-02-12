@@ -5,4 +5,4 @@ metadata:
 data:
   nats-server.conf: |
     port: 4222
-    include /etc/nats-auth/auth.conf
+    include ./auth/auth.conf

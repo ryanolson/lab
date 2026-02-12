@@ -45,7 +45,7 @@ Plain secret files (`*-secret.yaml`) are gitignored. Never commit raw secrets.
 
 NATS warns about plaintext passwords. The solution splits config into two files:
 
-- **Main config** (ConfigMap, git-tracked): `include /etc/nats-auth/auth.conf`
+- **Main config** (ConfigMap, git-tracked): `include /etc/nats/auth/auth.conf`
 - **Auth config** (emptyDir, runtime): init container reads `NATS_*_PASSWORD_HASH` env vars from the `nats-credentials` secret and writes `auth.conf` via `printf` (avoids shell `$` expansion of `$2a$...` hashes)
 
 The bootstrap script stores both plaintext passwords (for client pods) and bcrypt hashes (for server config) in `nats-credentials`. Client pods consume the plaintext password via `secretKeyRef`.

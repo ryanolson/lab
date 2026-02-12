@@ -21,7 +21,7 @@ spec:
             - |
               printf 'authorization {\n  users: [\n    { user: default, password: "%s" }\n    { user: dynamo, password: "%s" }\n  ]\n}\n' \
                 "$NATS_DEFAULT_PASSWORD_HASH" "$NATS_DYNAMO_PASSWORD_HASH" \
-                > /etc/nats-auth/auth.conf
+                > /etc/nats/auth/auth.conf
           env:
             - name: NATS_DEFAULT_PASSWORD_HASH
               valueFrom:
@@ -35,7 +35,7 @@ spec:
                   key: NATS_DYNAMO_PASSWORD_HASH
           volumeMounts:
             - name: auth
-              mountPath: /etc/nats-auth
+              mountPath: /etc/nats/auth
       containers:
         - name: nats
           image: nats:2-alpine
@@ -49,7 +49,7 @@ spec:
             - name: config
               mountPath: /etc/nats
             - name: auth
-              mountPath: /etc/nats-auth
+              mountPath: /etc/nats/auth
             - name: data
               mountPath: /data
       volumes:

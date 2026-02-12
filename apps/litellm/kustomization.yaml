@@ -4,6 +4,7 @@ namespace: default
 resources:
   - onepassword-item.yaml
   - openrouter-onepassword-item.yaml
+  - master-key-onepassword-item.yaml
   - deployment.yaml
   - service.yaml
 configMapGenerator:

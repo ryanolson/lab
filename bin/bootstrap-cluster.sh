@@ -65,8 +65,7 @@ ensure_secret default nats-credentials \
   --from-literal=NATS_DYNAMO_PASSWORD_HASH="$(bcrypt_hash "$_nats_dynamo_pw")"
 unset _nats_default_pw _nats_dynamo_pw
 
-ensure_secret default litellm-master-key \
-  --from-literal=LITELLM_MASTER_KEY="sk-$(openssl rand -hex 24)"
+# litellm-master-key is managed by 1Password operator (OnePasswordItem)
 
 ensure_secret default openwebui-secret-key \
   --from-literal=OPENWEBUI_SECRET_KEY="$(openssl rand -base64 32)"

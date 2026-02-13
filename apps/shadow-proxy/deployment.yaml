@@ -17,6 +17,7 @@ spec:
       containers:
         - name: shadow-proxy
           image: nvcr.io/nvidian/dynamo-dev/cc-proxy:latest
+          imagePullPolicy: Always
           env:
             - name: SHADOW_LITELLM_API_KEY
               valueFrom:

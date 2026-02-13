@@ -69,3 +69,16 @@ unset _nats_default_pw _nats_dynamo_pw
 
 ensure_secret default openwebui-secret-key \
   --from-literal=OPENWEBUI_SECRET_KEY="$(openssl rand -base64 32)"
+
+# NGC registry credentials for pulling private container images
+_ngc_key="$(op read 'op://Development/NGC/credential')"
+if ! $KUBECTL get secret ngc-registry -n default &>/dev/null; then
+  $KUBECTL create secret docker-registry ngc-registry -n default \
+    --docker-server=nvcr.io \
+    --docker-username='$oauthtoken' \
+    --docker-password="$_ngc_key"
+  echo "Created secret default/ngc-registry"
+else
+  echo "Secret default/ngc-registry already exists, skipping"
+fi
+unset _ngc_key

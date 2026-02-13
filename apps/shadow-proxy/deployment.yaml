@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shadow-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shadow-proxy
+  template:
+    metadata:
+      labels:
+        app: shadow-proxy
+    spec:
+      imagePullSecrets:
+        - name: ngc-registry
+      containers:
+        - name: shadow-proxy
+          image: nvcr.io/nvidian/dynamo-dev/cc-proxy:e34e895
+          env:
+            - name: SHADOW_LITELLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: litellm-master-key
+                  key: credential
+          ports:
+            - containerPort: 3080
+          volumeMounts:
+            - name: shadow-proxy-config
+              mountPath: /etc/shadow-proxy/shadow-proxy.toml
+              subPath: shadow-proxy.toml
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: shadow-proxy-config
+          configMap:
+            name: shadow-proxy-config

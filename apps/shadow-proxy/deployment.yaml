@@ -16,7 +16,7 @@ spec:
         - name: ngc-registry
       containers:
         - name: shadow-proxy
-          image: nvcr.io/nvidian/dynamo-dev/cc-proxy:e34e895
+          image: nvcr.io/nvidian/dynamo-dev/cc-proxy:latest
           env:
             - name: SHADOW_LITELLM_API_KEY
               valueFrom:

@@ -1,8 +1,8 @@
 model_list:
-  - model_name: gemini-2.5-flash
+  - model_name: step-3.5-flash
     litellm_params:
-      model: gemini/gemini-2.5-flash-preview-04-17
-      api_key: os.environ/GOOGLE_API_KEY
+      model: openrouter/stepfun/step-3.5-flash
+      api_key: os.environ/OPENROUTER_API_KEY
   - model_name: claude-opus-4-6
     litellm_params:
       model: openrouter/anthropic/claude-opus-4-6

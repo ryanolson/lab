@@ -137,3 +137,20 @@ spec:
   dependsOn:
     - name: apps-litellm
     - name: apps-phoenix
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps-openclaw
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/openclaw
+  prune: true
+  wait: true
+  timeout: 5m
+  dependsOn:
+    - name: apps-litellm

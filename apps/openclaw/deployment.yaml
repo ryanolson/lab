@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openclaw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openclaw
+  template:
+    metadata:
+      labels:
+        app: openclaw
+    spec:
+      securityContext:
+        runAsUser: 1024
+        runAsGroup: 100
+      initContainers:
+        - name: copy-config
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /data/.openclaw
+              cp /config/openclaw.json /data/.openclaw/openclaw.json
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: openclaw-config
+              mountPath: /config
+      containers:
+        - name: openclaw
+          image: ghcr.io/openclaw/openclaw:v2026.2.21
+          env:
+            - name: HOME
+              value: /data
+            - name: LITELLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: litellm-master-key
+                  key: credential
+          ports:
+            - containerPort: 18789
+          livenessProbe:
+            tcpSocket:
+              port: 18789
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 18789
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: openclaw-data
+        - name: openclaw-config
+          configMap:
+            name: openclaw-config

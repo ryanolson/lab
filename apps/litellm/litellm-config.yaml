@@ -3,6 +3,10 @@ model_list:
     litellm_params:
       model: openrouter/stepfun/step-3.5-flash
       api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: step-3.5-flash:free
+    litellm_params:
+      model: openrouter/stepfun/step-3.5-flash:free
+      api_key: os.environ/OPENROUTER_API_KEY
   - model_name: claude-opus-4-6
     litellm_params:
       model: openrouter/anthropic/claude-opus-4-6
@@ -23,6 +27,11 @@ model_list:
     litellm_params:
       model: openrouter/deepseek/deepseek-v3.2
       api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: spark/step-3.5-flash
+    litellm_params:
+      model: openai/Step-3.5-Flash-NVFP4
+      api_base: http://192.168.1.249:8000
+      api_key: "fake"
 
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY

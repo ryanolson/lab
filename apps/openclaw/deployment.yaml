@@ -40,6 +40,11 @@ spec:
                 secretKeyRef:
                   name: litellm-master-key
                   key: credential
+            - name: OPENCLAW_GATEWAY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: openclaw
+                  key: credential
           ports:
             - containerPort: 18789
           livenessProbe:

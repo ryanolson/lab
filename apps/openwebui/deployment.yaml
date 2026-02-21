@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
         - name: openwebui
-          image: ghcr.io/open-webui/open-webui:main
+          image: ghcr.io/open-webui/open-webui:v0.8.3
+          imagePullPolicy: Always
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:

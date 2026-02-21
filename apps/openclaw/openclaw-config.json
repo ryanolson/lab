@@ -16,6 +16,9 @@
       }
     }
   },
+  "gateway": {
+    "bind": "lan"
+  },
   "agents": {
     "defaults": {
       "model": {

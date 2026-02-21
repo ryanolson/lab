@@ -17,6 +17,9 @@
     }
   },
   "gateway": {
+    "controlUi": {
+      "allowInsecureAuth": true
+    },
     "bind": "lan"
   },
   "agents": {

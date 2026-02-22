@@ -31,7 +31,7 @@ spec:
               mountPath: /config
       containers:
         - name: openclaw
-          image: alpine/openclaw:2026.2.9
+          image: alpine/openclaw:latest
           env:
             - name: HOME
               value: /data

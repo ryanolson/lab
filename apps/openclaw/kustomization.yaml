@@ -1,12 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: default
 resources:
-  - onepassword-item.yaml
-  - deployment.yaml
-  - service.yaml
   - pvc.yaml
-configMapGenerator:
-  - name: openclaw-config
-    files:
-      - openclaw.json=openclaw-config.json
+  - onepassword-item.yaml
+  - helmrelease.yaml

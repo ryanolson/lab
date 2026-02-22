@@ -37,6 +37,7 @@ general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
 
 litellm_settings:
+  drop_params: true
   callbacks: ["arize_phoenix"]
   cache: true
   cache_params:

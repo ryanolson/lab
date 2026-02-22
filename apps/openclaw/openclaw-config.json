@@ -16,7 +16,8 @@
   },
   "gateway": {
     "controlUi": {
-      "allowInsecureAuth": true
+      "allowInsecureAuth": true,
+      "dangerouslyDisableDeviceAuth": true
     },
     "bind": "lan"
   },
